@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "961478406417",
+    "project_id": "lead-management-system-fdd3d",
+    "storage_bucket": "lead-management-system-fdd3d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961478406417:android:0bc51babb66033a9e29cb0",
+        "android_client_info": {
+          "package_name": "com.restncode.lead_management_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961478406417-9ssccmr51r7p7se06m7mj437uk1qhjbi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLGBQb1JF-1bOly5nC8Eu_7-87nyg4Hvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961478406417-9ssccmr51r7p7se06m7mj437uk1qhjbi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
