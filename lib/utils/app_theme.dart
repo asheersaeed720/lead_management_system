@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lead_management_system/utils/constants.dart';
 
 final lightThemeData = ThemeData(
   primarySwatch: Colors.indigo,
@@ -20,5 +21,5 @@ final lightThemeData = ThemeData(
   // ),
   errorColor: Colors.red[800],
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  fontFamily: 'Nexa',
+  fontFamily: fontName,
 );

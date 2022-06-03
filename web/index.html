@@ -2,6 +2,51 @@
 <html>
 
 <head>
+    <!-- <script defer src="index.dart.js" type="application/javascript"></script> -->
+    <style>
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #F16A70;
+            border-right: 8px solid #B10877;
+            border-bottom: 8px solid #8CDCDA;
+            border-left: 8px solid #4d4d4d;
+            width: 60px;
+            height: 60px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+        
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
     <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -42,6 +87,9 @@
 </head>
 
 <body>
+    <div class="loading">
+        <div class="loader"></div>
+    </div>
     <script>
         window.addEventListener('load', function(ev) {
             // Download main.dart.js
@@ -56,7 +104,8 @@
             });
         });
     </script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyA_g8DuqmiEqEgJ24T5Gm85VCYcJskW7mE",

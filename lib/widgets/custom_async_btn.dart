@@ -4,64 +4,45 @@ import 'package:flutter/material.dart';
 class CustomAsyncBtn extends StatelessWidget {
   const CustomAsyncBtn({
     Key? key,
-    this.icon,
-    required this.btntxt,
+    required this.btnTxt,
     this.width = double.infinity,
     this.height = 48.0,
-    this.btnColor,
+    this.btnColor = Colors.indigo,
     this.borderRadius = 6.0,
     required this.onPress,
+    this.isDisabled = false,
   }) : super(key: key);
 
-  final Icon? icon;
-  final String btntxt;
+  final String btnTxt;
   final double width;
   final double height;
-  final Color? btnColor;
+  final Color btnColor;
   final double borderRadius;
-  final dynamic onPress;
+  final Function() onPress;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
     return AsyncButtonBuilder(
-      child: icon == null
-          ? Text(
-              btntxt,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16.0,
-                color: Colors.black87,
-              ),
-            )
-          : Row(
-              children: [
-                icon!,
-                const SizedBox(width: 42.0),
-                Text(btntxt, style: Theme.of(context).textTheme.bodyText1),
-              ],
-            ),
-      onPressed: onPress == null
-          ? null
-          : () async {
-              await onPress();
-            },
+      onPressed: () async {
+        await onPress();
+      },
       showSuccess: false,
       loadingWidget: const SizedBox(
         height: 16.0,
         width: 16.0,
         child: CircularProgressIndicator(),
       ),
+      disabled: isDisabled,
       errorWidget: const Text('Error'),
       builder: (context, child, callback, _) {
         return SizedBox(
           width: width,
           height: height,
           child: ElevatedButton(
-            child: child,
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                btnColor ?? Colors.white.withOpacity(0.9),
-              ),
+              backgroundColor: MaterialStateProperty.all(isDisabled ? Colors.grey : btnColor),
+              elevation: MaterialStateProperty.all(0.0),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(borderRadius),
@@ -69,9 +50,18 @@ class CustomAsyncBtn extends StatelessWidget {
               ),
             ),
             onPressed: callback,
+            child: child,
           ),
         );
       },
+      child: Text(
+        btnTxt,
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 16.0,
+          color: btnColor == Colors.white ? Colors.black87 : Colors.white,
+        ),
+      ),
     );
   }
 }

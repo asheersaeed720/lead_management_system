@@ -18,6 +18,8 @@ class AuthController extends NetworkManager {
 
   bool isLoading = false;
 
+  bool isRemember = false;
+
   bool obscureText = true;
 
   String rememberEmail = '';

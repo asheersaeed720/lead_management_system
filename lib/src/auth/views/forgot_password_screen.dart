@@ -48,7 +48,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   // ),
                   const SizedBox(height: 18.0),
                   CustomAsyncBtn(
-                    btntxt: 'SEND CODE',
+                    btnTxt: 'SEND CODE',
                     onPress: () {},
                   )
                 ],

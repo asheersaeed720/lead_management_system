@@ -5,7 +5,7 @@ import 'package:lead_management_system/src/dashboard/dashboard_screen.dart';
 final List<GetPage<dynamic>> routes = [
   GetPage(
     name: AuthScreen.routeName,
-    page: () => const AuthScreen(),
+    page: () => AuthScreen(),
   ),
   GetPage(
     name: DashboardScreen.routeName,
