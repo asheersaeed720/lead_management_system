@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lead_management_system/src/auth/auth_service.dart';
-import 'package:lead_management_system/src/auth/views/auth_screen.dart';
+import 'package:lead_management_system/src/auth/views/login_screen.dart';
 import 'package:lead_management_system/src/network_manager.dart';
 import 'package:lead_management_system/utils/custom_snack_bar.dart';
 import 'package:lead_management_system/utils/display_toast_message.dart';
@@ -38,13 +38,23 @@ class AuthController extends NetworkManager {
   }
 
   Future<bool> handleSignUp({
-    required String fname,
-    required String lname,
+    required String name,
+    required String cname,
     required String email,
+    required String mobileNo,
+    required String address,
     required String password,
   }) async {
     if (connectionType != 0) {
-      return ((await _authService.signUpUser(fname, lname, email, password)) != null);
+      return ((await _authService.signUpUser(
+            name,
+            cname,
+            email,
+            mobileNo,
+            address,
+            password,
+          )) !=
+          null);
     } else {
       customSnackBar('Network error', 'Please try again later');
       return false;
@@ -92,6 +102,6 @@ class AuthController extends NetworkManager {
     currentUserData = _getStorage.read('user') ?? {};
     update();
     displayToastMessage('Logout');
-    Get.offAllNamed(AuthScreen.routeName);
+    Get.offAllNamed(LogInScreen.routeName);
   }
 }

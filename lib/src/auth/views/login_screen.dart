@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lead_management_system/src/auth/auth_controller.dart';
+import 'package:lead_management_system/src/auth/views/signup_screen.dart';
 import 'package:lead_management_system/src/dashboard/dashboard_screen.dart';
 import 'package:lead_management_system/utils/constants.dart';
 import 'package:lead_management_system/utils/input_decoration.dart';
 import 'package:lead_management_system/utils/input_validation_mixin.dart';
 import 'package:lead_management_system/widgets/custom_async_btn.dart';
 
-class AuthScreen extends StatelessWidget with InputValidationMixin {
-  static const String routeName = '/auth';
+class LogInScreen extends StatelessWidget with InputValidationMixin {
+  static const String routeName = '/login';
 
-  AuthScreen({Key? key}) : super(key: key);
+  LogInScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,20 +31,15 @@ class AuthScreen extends StatelessWidget with InputValidationMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    children: [
-                      Image.asset("assets/icons/logo.png"),
-                      Expanded(child: Container()),
-                    ],
-                  ),
+                  Image.asset("assets/icons/logo.png", width: 200.0),
                   const SizedBox(
-                    height: 20,
+                    height: 24,
                   ),
                   Row(
                     children: [
                       Text(
                         "Log In",
-                        style: GoogleFonts.roboto(fontSize: 30, fontWeight: FontWeight.bold),
+                        style: kTitleStyle.copyWith(fontSize: 26.0),
                       ),
                     ],
                   ),
@@ -57,15 +55,7 @@ class AuthScreen extends StatelessWidget with InputValidationMixin {
                     height: 15,
                   ),
                   TextFormField(
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return 'Required';
-                    //   }
-                    //   bool emailValid = RegExp(
-                    //           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    //       .hasMatch(value);
-                    //   return !emailValid ? "Enter valid email" : null;
-                    // },
+                    controller: _emailController,
                     validator: (value) => validateEmail(value ?? ''),
                     decoration: buildTextFieldInputDecoration(
                       context,
@@ -77,7 +67,8 @@ class AuthScreen extends StatelessWidget with InputValidationMixin {
                     height: 15,
                   ),
                   TextFormField(
-                    obscureText: true,
+                    controller: _passwordController,
+                    obscureText: authController.obscureText,
                     keyboardType: TextInputType.visiblePassword,
                     validator: (value) => validatePassword(value ?? ''),
                     decoration: buildPasswordInputDecoration(
@@ -95,7 +86,7 @@ class AuthScreen extends StatelessWidget with InputValidationMixin {
                     ),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,16 +117,43 @@ class AuthScreen extends StatelessWidget with InputValidationMixin {
                   ),
                   CustomAsyncBtn(
                     btnTxt: 'Log In',
-                    onPress: () {
+                    onPress: () async {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         FocusScopeNode currentFocus = FocusScope.of(context);
                         if (!currentFocus.hasPrimaryFocus) {
                           currentFocus.unfocus();
                         }
-                        Get.offAndToNamed(DashboardScreen.routeName);
+                        final isAuth = await authController.handleLogIn(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
+                        if (isAuth) {
+                          Get.offNamed(DashboardScreen.routeName);
+                        }
                       }
                     },
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Free trial for 30 days"),
+                      TextButton(
+                        onPressed: () {
+                          Get.toNamed(SignUpScreen.routeName);
+                        },
+                        child: Text(
+                          "Register Now!",
+                          style: kBodyStyle.copyWith(
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue.shade800,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),

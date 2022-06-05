@@ -7,7 +7,13 @@ import 'package:lead_management_system/utils/firebase_collections.dart';
 
 class AuthService extends GetConnect {
   Future<UserCredential?> signUpUser(
-      String firstName, String lastName, String email, String password) async {
+    String name,
+    String companyName,
+    String email,
+    String mobileNo,
+    String address,
+    String password,
+  ) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -15,15 +21,16 @@ class AuthService extends GetConnect {
       );
       Map<String, dynamic> data = {
         "uid": userCredential.user!.uid,
-        "first_name": firstName,
-        "last_name": lastName,
+        "name": name,
+        "company_name": companyName,
         "email": email,
-        "notification": true,
+        "mobile_no": mobileNo,
+        "address": address,
+        "is_approve": true,
       };
       if (userCredential.user != null) {
         await userCollection.doc(userCredential.user!.uid).set(data);
-        await userCredential.user!.sendEmailVerification();
-        userCredential.user?.updateDisplayName('$firstName $lastName');
+        userCredential.user?.updateDisplayName(companyName);
       }
       return userCredential;
     } on FirebaseAuthException catch (e) {
@@ -44,9 +51,6 @@ class AuthService extends GetConnect {
         email: email,
         password: password,
       );
-      if (!userCredential.user!.emailVerified) {
-        await userCredential.user!.sendEmailVerification();
-      }
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
