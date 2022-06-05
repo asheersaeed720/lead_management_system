@@ -17,7 +17,7 @@ void main() async {
   await GetStorage.init();
   // await Firebase.initializeApp();
   await Firebase.initializeApp(
-    name: "Lead-Management-System",
+    // name: "Lead-Management-System",
     options: const FirebaseOptions(
       apiKey: "AIzaSyA_g8DuqmiEqEgJ24T5Gm85VCYcJskW7mE",
       appId: "1:961478406417:web:e97f7f7620a16e5ee29cb0",
