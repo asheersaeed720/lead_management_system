@@ -14,7 +14,7 @@ class AuthController extends NetworkManager {
 
   final GetStorage _getStorage = GetStorage();
 
-  Map currentUserData = {};
+  User? currentUserData;
 
   bool isLoading = false;
 
@@ -46,14 +46,7 @@ class AuthController extends NetworkManager {
     required String password,
   }) async {
     if (connectionType != 0) {
-      return ((await _authService.signUpUser(
-            name,
-            cname,
-            email,
-            mobileNo,
-            address,
-            password,
-          )) !=
+      return ((await _authService.signUpUser(name, cname, email, mobileNo, address, password)) !=
           null);
     } else {
       customSnackBar('Network error', 'Please try again later');
@@ -66,7 +59,12 @@ class AuthController extends NetworkManager {
     required String password,
   }) async {
     if (connectionType != 0) {
-      return ((await _authService.logInUser(email, password)) != null);
+      bool isAuth = ((await _authService.logInUser(email, password)) != null);
+      if (isAuth) {
+        _getStorage.write('user', FirebaseAuth.instance.currentUser);
+        currentUserData = getCurrentUser();
+      }
+      return isAuth;
     } else {
       customSnackBar('Network error', 'Please try again later');
       return false;
@@ -85,21 +83,17 @@ class AuthController extends NetworkManager {
     }
   }
 
-  Map getCurrentUser() {
-    Map userData = _getStorage.read('user') ?? {};
-    if (userData.isNotEmpty) {
-      Map user = userData;
-      log('$userData', name: 'storeUser');
-      return user;
-    } else {
-      return {};
-    }
+  User? getCurrentUser() {
+    User? userData = _getStorage.read('user');
+    User? user = userData;
+    log('$userData', name: 'storeUser');
+    return user;
   }
 
   logoutUser() async {
     await FirebaseAuth.instance.signOut();
     _getStorage.remove('user');
-    currentUserData = _getStorage.read('user') ?? {};
+    currentUserData = _getStorage.read('user');
     update();
     displayToastMessage('Logout');
     Get.offAllNamed(LogInScreen.routeName);

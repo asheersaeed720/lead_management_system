@@ -8,6 +8,7 @@ void displayToastMessage(text) {
     timeInSecForIosWeb: 2,
     backgroundColor: Colors.black87,
     textColor: Colors.white,
+    webShowClose: true,
     fontSize: 16.0,
   );
 }

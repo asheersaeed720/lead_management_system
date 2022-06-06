@@ -1,13 +1,12 @@
 import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lead_management_system/src/auth/views/login_screen.dart';
-import 'package:lead_management_system/src/dashboard/dashboard_screen.dart';
 import 'package:lead_management_system/src/main_binding.dart';
+import 'package:lead_management_system/src/page_not_found.dart';
 import 'package:lead_management_system/utils/routes.dart';
 
 import 'utils/app_theme.dart';
@@ -37,9 +36,12 @@ class MyApp extends StatelessWidget {
         title: 'Lead Management System',
         theme: lightThemeData,
         initialBinding: MainBinding(),
-        initialRoute: FirebaseAuth.instance.currentUser == null
-            ? LogInScreen.routeName
-            : DashboardScreen.routeName,
+        unknownRoute: GetPage(
+          name: '/page-not-found',
+          page: () => const PageNotFound(),
+          transition: Transition.fadeIn,
+        ),
+        initialRoute: LogInScreen.routeName,
         getPages: routes,
         scrollBehavior: CustomScrollBehaviour(),
       );
