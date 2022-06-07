@@ -4,10 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lead_management_system/src/auth/auth_service.dart';
-import 'package:lead_management_system/src/auth/views/login_screen.dart';
 import 'package:lead_management_system/src/network_manager.dart';
 import 'package:lead_management_system/utils/custom_snack_bar.dart';
 import 'package:lead_management_system/utils/display_toast_message.dart';
+import 'package:lead_management_system/utils/routes/routes.dart';
 
 class AuthController extends NetworkManager {
   final _authService = Get.find<AuthService>();
@@ -96,6 +96,6 @@ class AuthController extends NetworkManager {
     currentUserData = _getStorage.read('user');
     update();
     displayToastMessage('Logout');
-    Get.offAllNamed(LogInScreen.routeName);
+    Get.offAllNamed(Routes.login);
   }
 }

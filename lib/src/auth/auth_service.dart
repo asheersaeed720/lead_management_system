@@ -34,13 +34,12 @@ class AuthService extends GetConnect {
       }
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      log('$e');
       if (e.code == 'weak-password') {
         displayToastMessage('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         displayToastMessage('The account already exists for that email.');
       }
-    } catch (e) {
-      log('$e');
     }
     return null;
   }
@@ -53,6 +52,7 @@ class AuthService extends GetConnect {
       );
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      log('$e');
       if (e.code == 'user-not-found') {
         displayToastMessage('No user found for that email.');
       } else if (e.code == 'wrong-password') {

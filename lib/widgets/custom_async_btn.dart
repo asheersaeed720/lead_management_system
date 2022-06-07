@@ -9,6 +9,7 @@ class CustomAsyncBtn extends StatelessWidget {
     this.height = 48.0,
     this.btnColor = Colors.indigo,
     this.borderRadius = 6.0,
+    this.isLoading = false,
     required this.onPress,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class CustomAsyncBtn extends StatelessWidget {
   final double height;
   final Color btnColor;
   final double borderRadius;
+  final bool isLoading;
   final Function() onPress;
 
   @override
@@ -25,6 +27,7 @@ class CustomAsyncBtn extends StatelessWidget {
       onPressed: () async {
         await onPress();
       },
+      buttonState: isLoading ? const ButtonState.loading() : const ButtonState.idle(),
       showSuccess: false,
       loadingWidget: const SizedBox(
         height: 16.0,

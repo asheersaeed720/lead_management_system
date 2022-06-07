@@ -1,31 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lead_management_system/src/auth/auth_controller.dart';
-import 'package:lead_management_system/src/auth/views/signup_screen.dart';
-import 'package:lead_management_system/src/dashboard/dashboard_screen.dart';
 import 'package:lead_management_system/utils/constants.dart';
 import 'package:lead_management_system/utils/input_decoration.dart';
 import 'package:lead_management_system/utils/input_validation_mixin.dart';
+import 'package:lead_management_system/utils/routes/routes.dart';
 import 'package:lead_management_system/widgets/custom_async_btn.dart';
 
 class LogInScreen extends StatelessWidget with InputValidationMixin {
-  static const String routeName = '/login';
-
   LogInScreen({Key? key}) : super(key: key);
+
+  final _authController = Get.find<AuthController>();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  doLogin(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      FocusScopeNode currentFocus = FocusScope.of(context);
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
+      _authController.isLoading = true;
+      final isAuth = await _authController.handleLogIn(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      _authController.isLoading = false;
+      if (isAuth) {
+        Get.offAndToNamed(Routes.dashboard);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GetBuilder<AuthController>(
-        builder: (authController) => Center(
+        builder: (_) => Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 400),
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -68,19 +86,22 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
                   ),
                   TextFormField(
                     controller: _passwordController,
-                    obscureText: authController.obscureText,
+                    obscureText: _authController.obscureText,
                     keyboardType: TextInputType.visiblePassword,
                     validator: (value) => validatePassword(value ?? ''),
+                    onFieldSubmitted: (_) async {
+                      await doLogin(context);
+                    },
                     decoration: buildPasswordInputDecoration(
                       context,
                       labelTxt: 'Password',
                       suffixIcon: InkWell(
                         onTap: () {
-                          authController.obscureText = !authController.obscureText;
-                          authController.update();
+                          _authController.obscureText = !_authController.obscureText;
+                          _authController.update();
                         },
                         child: Icon(
-                          authController.obscureText ? Icons.visibility : Icons.visibility_off,
+                          _authController.obscureText ? Icons.visibility : Icons.visibility_off,
                         ),
                       ),
                     ),
@@ -94,16 +115,16 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
                       Row(
                         children: [
                           Checkbox(
-                            value: authController.isRemember,
+                            value: _authController.isRemember,
                             onChanged: (_) {
-                              authController.isRemember = !authController.isRemember;
-                              authController.update();
+                              _authController.isRemember = !_authController.isRemember;
+                              _authController.update();
                             },
                           ),
                           InkWell(
                             onTap: () {
-                              authController.isRemember = !authController.isRemember;
-                              authController.update();
+                              _authController.isRemember = !_authController.isRemember;
+                              _authController.update();
                             },
                             child: const Text("Remeber Me"),
                           ),
@@ -117,21 +138,9 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
                   ),
                   CustomAsyncBtn(
                     btnTxt: 'Log In',
+                    isLoading: _authController.isLoading,
                     onPress: () async {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                        final isAuth = await authController.handleLogIn(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        );
-                        if (isAuth) {
-                          Get.offNamed(DashboardScreen.routeName);
-                        }
-                      }
+                      await doLogin(context);
                     },
                   ),
                   const SizedBox(
@@ -143,7 +152,7 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
                       const Text("Free trial for 30 days"),
                       TextButton(
                         onPressed: () {
-                          Get.toNamed(SignUpScreen.routeName);
+                          Get.toNamed(Routes.signUp);
                         },
                         child: Text(
                           "Register Now!",

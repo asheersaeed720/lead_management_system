@@ -4,15 +4,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:lead_management_system/src/auth/views/login_screen.dart';
 import 'package:lead_management_system/src/main_binding.dart';
 import 'package:lead_management_system/src/page_not_found.dart';
-import 'package:lead_management_system/utils/routes.dart';
+import 'package:lead_management_system/utils/routes/app_pages.dart';
+import 'package:lead_management_system/utils/routes/fake_auth.dart';
+import 'package:lead_management_system/utils/routes/routes.dart';
 
 import 'utils/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Get.putAsync(() => FakeAuthService().init());
   await GetStorage.init();
   // await Firebase.initializeApp();
   await Firebase.initializeApp(
@@ -31,20 +33,22 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Lead Management System',
-        theme: lightThemeData,
-        initialBinding: MainBinding(),
-        unknownRoute: GetPage(
-          name: '/page-not-found',
-          page: () => const PageNotFound(),
-          transition: Transition.fadeIn,
-        ),
-        initialRoute: LogInScreen.routeName,
-        getPages: routes,
-        scrollBehavior: CustomScrollBehaviour(),
-      );
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Lead Management System',
+      theme: lightThemeData,
+      initialBinding: MainBinding(),
+      unknownRoute: GetPage(
+        name: '/page-not-found',
+        page: () => const PageNotFound(),
+        transition: Transition.fadeIn,
+      ),
+      initialRoute: Routes.login,
+      getPages: appPages,
+      scrollBehavior: CustomScrollBehaviour(),
+    );
+  }
 }
 
 class CustomScrollBehaviour extends MaterialScrollBehavior {

@@ -32,8 +32,6 @@ part 'widgets/task_menu.dart';
 part 'widgets/weekly_task.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
-  static const String routeName = '/dashboard';
-
   const DashboardScreen({Key? key}) : super(key: key);
 
   @override
