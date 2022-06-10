@@ -30,6 +30,7 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
         password: _passwordController.text,
       );
       _authController.isLoading = false;
+      _authController.update();
       if (isAuth) {
         Get.offAndToNamed(Routes.dashboard);
       }

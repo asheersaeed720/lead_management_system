@@ -32,12 +32,14 @@ part 'widgets/task_menu.dart';
 part 'widgets/weekly_task.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
-  const DashboardScreen({Key? key}) : super(key: key);
+  DashboardScreen({Key? key}) : super(key: key);
+
+  final GlobalKey<ScaffoldState> scafoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: controller.scafoldKey,
+      key: scafoldKey,
       drawer: ResponsiveBuilder.isDesktop(context)
           ? null
           : Drawer(
