@@ -7,7 +7,6 @@ import 'package:lead_management_system/src/auth/auth_service.dart';
 import 'package:lead_management_system/src/network_manager.dart';
 import 'package:lead_management_system/utils/custom_snack_bar.dart';
 import 'package:lead_management_system/utils/display_toast_message.dart';
-import 'package:lead_management_system/utils/routes/routes.dart';
 
 class AuthController extends NetworkManager {
   final _authService = Get.find<AuthService>();
@@ -60,6 +59,7 @@ class AuthController extends NetworkManager {
   }) async {
     if (connectionType != 0) {
       bool isAuth = ((await _authService.logInUser(email, password)) != null);
+      log('isAuth $isAuth');
       if (isAuth) {
         _getStorage.write('user', FirebaseAuth.instance.currentUser);
         currentUserData = getCurrentUser();
@@ -96,6 +96,6 @@ class AuthController extends NetworkManager {
     currentUserData = _getStorage.read('user');
     update();
     displayToastMessage('Logout');
-    Get.offAllNamed(Routes.login);
+    // Get.offAllNamed(Routes.login);
   }
 }

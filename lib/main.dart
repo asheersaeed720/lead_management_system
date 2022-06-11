@@ -1,17 +1,19 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:lead_management_system/routes/route_delegate.dart';
+import 'package:lead_management_system/routes/route_information_parser.dart';
 import 'package:lead_management_system/src/main_binding.dart';
-import 'package:lead_management_system/src/page_not_found.dart';
-import 'package:lead_management_system/utils/routes/app_pages.dart';
-import 'package:lead_management_system/utils/routes/routes.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'utils/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setPathUrlStrategy();
   await GetStorage.init();
   await Firebase.initializeApp(
     // name: "Lead-Management-System",
@@ -22,27 +24,28 @@ void main() async {
       projectId: "lead-management-system-fdd3d",
     ),
   );
-  runApp(const MyApp());
+  bool isUserLoggedIn = GetStorage().read('user') == null ? false : true;
+  log('isUserLoggedIn $isUserLoggedIn');
+
+  runApp(MyApp(
+    isLoggedIn: isUserLoggedIn,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool? isLoggedIn;
+
+  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return GetMaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Lead Management System',
       theme: lightThemeData,
       initialBinding: MainBinding(),
-      // scrollBehavior: CustomScrollBehaviour(),
-      unknownRoute: GetPage(
-        name: Routes.pageNotFound,
-        page: () => const PageNotFound(),
-        transition: Transition.fadeIn,
-      ),
-      getPages: appPages,
-      initialRoute: FirebaseAuth.instance.currentUser == null ? Routes.login : Routes.dashboard,
+      routeInformationParser: RoutesInformationParser(),
+      routerDelegate: AppRouterDelegate(isLoggedIn: isLoggedIn),
     );
   }
 }

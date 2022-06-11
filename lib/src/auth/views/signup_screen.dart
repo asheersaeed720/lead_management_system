@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:lead_management_system/routes/route_delegate.dart';
+import 'package:lead_management_system/routes/route_handeler.dart';
 import 'package:lead_management_system/src/auth/auth_controller.dart';
 import 'package:lead_management_system/utils/constants.dart';
 import 'package:lead_management_system/utils/input_decoration.dart';
 import 'package:lead_management_system/utils/input_validation_mixin.dart';
-import 'package:lead_management_system/utils/routes/routes.dart';
 import 'package:lead_management_system/widgets/custom_async_btn.dart';
 
 class SignUpScreen extends StatelessWidget with InputValidationMixin {
@@ -45,7 +46,7 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
       _authController.isLoading = false;
       _authController.update();
       if (isAuth) {
-        Get.offAndToNamed(Routes.dashboard);
+        AppRouterDelegate().setPathName(RouteData.dashboard.name);
       }
     }
   }
