@@ -1,12 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:lead_management_system/routes/custom_transition_delegate.dart';
-import 'package:lead_management_system/routes/route_handeler.dart';
-import 'package:lead_management_system/routes/route_path.dart';
-import 'package:lead_management_system/src/auth/views/login_screen.dart';
-import 'package:lead_management_system/src/dashboard/dashboard_screen.dart';
-import 'package:lead_management_system/src/page_not_found.dart';
-import 'package:lead_management_system/utils/custom_navigation_key.dart';
+import 'package:lead_management_system/src/custom_navigation_key.dart';
+import 'package:lead_management_system/src/hive_storage_service.dart';
+import 'package:lead_management_system/src/routes/custom_transition_delegate.dart';
+import 'package:lead_management_system/src/routes/route_handeler.dart';
+import 'package:lead_management_system/src/routes/route_path.dart';
+import 'package:lead_management_system/src/screens/login.dart';
+import 'package:lead_management_system/src/screens/main_screen.dart';
+import 'package:lead_management_system/src/screens/signup.dart';
+import 'package:lead_management_system/src/screens/unknown.dart';
 
 /// AppRouterDelegate includes the parsed result from RoutesInformationParser
 class AppRouterDelegate extends RouterDelegate<RoutePath>
@@ -34,7 +37,7 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
     if (isError) {
       return RoutePath.unknown();
     }
-    if (pathName == null) return RoutePath.dashboard('splash'); //main
+    if (pathName == null) return RoutePath.home('splash'); //main
 
     return RoutePath.otherPage(pathName);
   }
@@ -45,9 +48,9 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
   /// App Stack - Profile screen and other known and unknown routes
   List<Page> get _appStack => [
         MaterialPage(
-          key: const ValueKey('dashboard'),
-          child: DashboardScreen(
-            routeName: pathName ?? RouteData.dashboard.name,
+          key: const ValueKey('home'),
+          child: MainScreen(
+            routeName: pathName ?? RouteData.home.name,
           ),
         )
       ];
@@ -56,7 +59,14 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
   List<Page> get _authStack => [
         MaterialPage(
           key: const ValueKey('login'),
-          child: LogInScreen(),
+          child: Login(),
+        ),
+      ];
+
+  List<Page> get _authSignUpStack => [
+        const MaterialPage(
+          key: ValueKey('signup'),
+          child: Signup(),
         ),
       ];
 
@@ -64,7 +74,7 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
   List<Page> get _unknownRoute => [
         const MaterialPage(
           key: ValueKey('unknown'),
-          child: PageNotFound(),
+          child: UnknownRoute(),
         )
       ];
 
@@ -73,7 +83,11 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
     if (isLoggedIn == true) {
       _stack = _appStack;
     } else if ((isLoggedIn == false)) {
-      _stack = _authStack;
+      if (pathName == 'signup') {
+        _stack = _authSignUpStack;
+      } else {
+        _stack = _authStack;
+      }
     } else {
       _stack = _unknownRoute;
     }
@@ -95,27 +109,32 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
   /// setNewRoutePath is called when a new route has been pushed to the application.
   @override
   Future<void> setNewRoutePath(RoutePath configuration) async {
-    // bool isLoggedIn = await HiveDataStorageService.getUser();
-    bool isLoggedIn = await GetStorage().read('user') == null ? false : true;
+    bool isLoggedIn = await HiveDataStorageService.getUser();
 
     pathName = configuration.pathName;
 
     if (configuration.isOtherPage) {
+      log('${configuration.isOtherPage}');
       if (configuration.pathName != null) {
-        if (isLoggedIn == true) {
+        if (isLoggedIn) {
           /// If logged in
           if (configuration.pathName == RouteData.login.name) {
-            pathName = RouteData.dashboard.name;
+            pathName = RouteData.home.name;
             isError = false;
           } else {
             pathName = configuration.pathName != RouteData.login.name
                 ? configuration.pathName
-                : RouteData.dashboard.name;
+                : RouteData.home.name;
             isError = false;
           }
         } else {
-          pathName = RouteData.login.name;
-          isError = false;
+          if (pathName == RouteData.signup.name) {
+            pathName = RouteData.signup.name;
+            isError = false;
+          } else {
+            pathName = RouteData.login.name;
+            isError = false;
+          }
         }
       } else {
         pathName = configuration.pathName;

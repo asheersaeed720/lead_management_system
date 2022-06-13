@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:lead_management_system/routes/route_delegate.dart';
-import 'package:lead_management_system/routes/route_information_parser.dart';
+import 'package:lead_management_system/src/hive_storage_service.dart';
 import 'package:lead_management_system/src/main_binding.dart';
+import 'package:lead_management_system/src/routes/route_delegate.dart';
+import 'package:lead_management_system/src/routes/route_information_parser.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'utils/app_theme.dart';
@@ -14,7 +12,7 @@ import 'utils/app_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy();
-  await GetStorage.init();
+  bool isUserLoggedIn = await HiveDataStorageService.getUser();
   await Firebase.initializeApp(
     // name: "Lead-Management-System",
     options: const FirebaseOptions(
@@ -24,8 +22,6 @@ void main() async {
       projectId: "lead-management-system-fdd3d",
     ),
   );
-  bool isUserLoggedIn = GetStorage().read('user') == null ? false : true;
-  log('isUserLoggedIn $isUserLoggedIn');
 
   runApp(MyApp(
     isLoggedIn: isUserLoggedIn,
@@ -49,11 +45,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class CustomScrollBehaviour extends MaterialScrollBehavior {
-//   @override
-//   Set<PointerDeviceKind> get dragDevices => {
-//         PointerDeviceKind.touch,
-//         PointerDeviceKind.mouse,
-//       };
-// }

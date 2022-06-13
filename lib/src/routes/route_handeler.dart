@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:lead_management_system/src/auth/views/signup_screen.dart';
-import 'package:lead_management_system/src/dashboard/dashboard_screen.dart';
-import 'package:lead_management_system/src/page_not_found.dart';
-import 'package:lead_management_system/src/setting/setting_screen.dart';
+import 'package:lead_management_system/src/screens/home_screen.dart';
+import 'package:lead_management_system/src/screens/more.dart';
+import 'package:lead_management_system/src/screens/profile_screen.dart';
+import 'package:lead_management_system/src/screens/settings_screen.dart';
+import 'package:lead_management_system/src/screens/unknown.dart';
 
 enum RouteData {
   /// For routes for which we want to show unkown page that are not being parsed
@@ -11,10 +14,12 @@ enum RouteData {
   /// For routes that are parsed but not data is found for them eg. /user/?userName=abc and abc doesnt exist
   notFound,
 
+  profile,
   login,
-  signUp,
-  dashboard,
-  setting,
+  home,
+  more,
+  settings,
+  signup
 }
 
 /// Class to handle route path related informations
@@ -27,6 +32,7 @@ class RouteHandeler {
   /// [WidgetToRender] - Renders specified widget
   /// [PathName] - Re-directs to [PathName] if invalid path is entered
   Widget getRouteWidget(String? routeName) {
+    log('routeName $routeName');
     RouteData routeData;
 
     if (routeName != null) {
@@ -42,32 +48,41 @@ class RouteHandeler {
 
         if (routeData != RouteData.notFound) {
           switch (routeData) {
-            case RouteData.dashboard:
-              return DashboardScreen(
+            case RouteData.home:
+              return Home(
                 routeName: routeName,
               );
 
-            case RouteData.signUp:
-              return SignUpScreen();
+            case RouteData.profile:
+              return Profile(
+                routeName: routeName,
+              );
 
-            case RouteData.setting:
-              return const SettingScreen();
+            case RouteData.settings:
+              return Settings(
+                routeName: routeName,
+              );
+
+            case RouteData.more:
+              return More(
+                routeName: routeName,
+              );
 
             default:
-              return DashboardScreen(
+              return Home(
                 routeName: routeName,
               );
           }
         } else {
-          return const PageNotFound();
+          return const UnknownRoute();
         }
       } else {
-        return DashboardScreen(
+        return Home(
           routeName: routeName,
         );
       }
     } else {
-      return const PageNotFound();
+      return const UnknownRoute();
     }
   }
 }

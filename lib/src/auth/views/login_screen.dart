@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lead_management_system/routes/route_delegate.dart';
-import 'package:lead_management_system/routes/route_handeler.dart';
 import 'package:lead_management_system/src/auth/auth_controller.dart';
 import 'package:lead_management_system/utils/constants.dart';
 import 'package:lead_management_system/utils/input_decoration.dart';
@@ -22,7 +20,7 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
     }
-    AppRouterDelegate().setPathName(RouteData.dashboard.name);
+    // AppRouterDelegate().setPathName(RouteData.dashboard.name);
   }
 
   // doLogin(BuildContext context) async {
@@ -161,7 +159,7 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
                       const Text("Free trial for 30 days"),
                       TextButton(
                         onPressed: () {
-                          AppRouterDelegate().setPathName(RouteData.signUp.name);
+                          // AppRouterDelegate().setPathName(RouteData.signUp.name);
                         },
                         child: Text(
                           "Register Now!",
