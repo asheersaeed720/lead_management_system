@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lead_management_system/src/hive/hive_storage_service.dart';
 import 'package:lead_management_system/src/main_binding.dart';
 import 'package:lead_management_system/utils/routes/route_delegate.dart';
 import 'package:lead_management_system/utils/routes/route_information_parser.dart';
@@ -12,16 +12,28 @@ import 'utils/app_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy();
-  bool isUserLoggedIn = await HiveDataStorageService.getUser();
-  await Firebase.initializeApp(
-    // name: "Lead-Management-System",
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyA_g8DuqmiEqEgJ24T5Gm85VCYcJskW7mE",
-      appId: "1:961478406417:web:e97f7f7620a16e5ee29cb0",
-      messagingSenderId: "961478406417",
-      projectId: "lead-management-system-fdd3d",
-    ),
-  );
+  // bool isUserLoggedIn = await HiveDataStorageService.getUser();
+  bool isUserLoggedIn = false;
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyA_g8DuqmiEqEgJ24T5Gm85VCYcJskW7mE",
+        appId: "1:961478406417:web:e97f7f7620a16e5ee29cb0",
+        messagingSenderId: "961478406417",
+        projectId: "lead-management-system-fdd3d",
+      ),
+    );
+  } else {
+    await Firebase.initializeApp(
+      name: "Lead-Management-System",
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyA_g8DuqmiEqEgJ24T5Gm85VCYcJskW7mE",
+        appId: "1:961478406417:web:e97f7f7620a16e5ee29cb0",
+        messagingSenderId: "961478406417",
+        projectId: "lead-management-system-fdd3d",
+      ),
+    );
+  }
 
   runApp(MyApp(
     isLoggedIn: isUserLoggedIn,
