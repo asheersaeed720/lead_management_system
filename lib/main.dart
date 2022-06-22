@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lead_management_system/src/hive_storage_service.dart';
+import 'package:lead_management_system/src/hive/hive_storage_service.dart';
 import 'package:lead_management_system/src/main_binding.dart';
-import 'package:lead_management_system/src/routes/route_delegate.dart';
-import 'package:lead_management_system/src/routes/route_information_parser.dart';
+import 'package:lead_management_system/utils/routes/route_delegate.dart';
+import 'package:lead_management_system/utils/routes/route_information_parser.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'utils/app_theme.dart';

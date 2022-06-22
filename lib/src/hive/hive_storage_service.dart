@@ -1,4 +1,4 @@
-import 'package:lead_management_system/src/db.dart';
+import 'package:lead_management_system/src/hive/db.dart';
 
 class HiveDataStorageService {
   static final HiveDataStorageService _instance = HiveDataStorageService._();

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lead_management_system/src/auth/auth_controller.dart';
+import 'package:lead_management_system/src/hive/hive_storage_service.dart';
 import 'package:lead_management_system/utils/constants.dart';
 import 'package:lead_management_system/utils/input_decoration.dart';
 import 'package:lead_management_system/utils/input_validation_mixin.dart';
+import 'package:lead_management_system/utils/routes/route_delegate.dart';
+import 'package:lead_management_system/utils/routes/route_handeler.dart';
 import 'package:lead_management_system/widgets/custom_async_btn.dart';
 
 class LogInScreen extends StatelessWidget with InputValidationMixin {
@@ -19,29 +22,23 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
   doLogin(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      FocusScopeNode currentFocus = FocusScope.of(context);
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
+      _authController.isLoading = true;
+      final isAuth = await _authController.handleLogIn(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      _authController.isLoading = false;
+      _authController.update();
+      if (isAuth) {
+        await HiveDataStorageService.logUserIn();
+        AppRouterDelegate().setPathName(RouteData.dashboard.name);
+      }
     }
-    // AppRouterDelegate().setPathName(RouteData.dashboard.name);
   }
-
-  // doLogin(BuildContext context) async {
-  //   if (_formKey.currentState!.validate()) {
-  //     _formKey.currentState!.save();
-  //     FocusScopeNode currentFocus = FocusScope.of(context);
-  //     if (!currentFocus.hasPrimaryFocus) {
-  //       currentFocus.unfocus();
-  //     }
-  //     _authController.isLoading = true;
-  //     final isAuth = await _authController.handleLogIn(
-  //       email: _emailController.text,
-  //       password: _passwordController.text,
-  //     );
-  //     _authController.isLoading = false;
-  //     _authController.update();
-  //     if (isAuth) {
-  //       AppRouterDelegate().setPathName(RouteData.dashboard.name, loggedIn: true);
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +156,7 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
                       const Text("Free trial for 30 days"),
                       TextButton(
                         onPressed: () {
-                          // AppRouterDelegate().setPathName(RouteData.signUp.name);
+                          AppRouterDelegate().setPathName(RouteData.signup.name, loggedIn: false);
                         },
                         child: Text(
                           "Register Now!",

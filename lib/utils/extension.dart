@@ -1,4 +1,6 @@
-part of app_helpers;
+// part of app_helpers;
+
+import 'package:intl/intl.dart';
 
 extension StringExtension on String {
   String getInitialName([int max = 2]) {

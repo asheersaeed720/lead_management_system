@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class Signup extends StatelessWidget {
-  const Signup({Key? key}) : super(key: key);
+class DashboardScreen extends StatelessWidget {
+  static const String routeName = '/dashboard';
+
+  const DashboardScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Text('signup'),
+        child: Text('Dashboard Screen'),
       ),
     );
   }

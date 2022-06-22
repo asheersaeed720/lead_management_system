@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:lead_management_system/src/data_provider.dart';
+import 'package:lead_management_system/src/hive/data_provider.dart';
 
 /// Concrete implementation for local hive data provider
 class HiveDataProvider implements LocalDataProviderContract {

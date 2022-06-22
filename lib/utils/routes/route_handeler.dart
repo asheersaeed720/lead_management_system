@@ -1,11 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:lead_management_system/src/screens/home_screen.dart';
-import 'package:lead_management_system/src/screens/more.dart';
-import 'package:lead_management_system/src/screens/profile_screen.dart';
-import 'package:lead_management_system/src/screens/settings_screen.dart';
-import 'package:lead_management_system/src/screens/unknown.dart';
+import 'package:lead_management_system/src/dashboard/dashboard_screen.dart';
+import 'package:lead_management_system/src/page_not_found.dart';
+import 'package:lead_management_system/src/setting/setting_screen.dart';
 
 enum RouteData {
   /// For routes for which we want to show unkown page that are not being parsed
@@ -14,10 +12,8 @@ enum RouteData {
   /// For routes that are parsed but not data is found for them eg. /user/?userName=abc and abc doesnt exist
   notFound,
 
-  profile,
+  dashboard,
   login,
-  home,
-  more,
   settings,
   signup
 }
@@ -48,41 +44,25 @@ class RouteHandeler {
 
         if (routeData != RouteData.notFound) {
           switch (routeData) {
-            case RouteData.home:
-              return Home(
-                routeName: routeName,
-              );
-
-            case RouteData.profile:
-              return Profile(
-                routeName: routeName,
-              );
+            case RouteData.dashboard:
+              return const DashboardScreen();
 
             case RouteData.settings:
-              return Settings(
-                routeName: routeName,
-              );
-
-            case RouteData.more:
-              return More(
+              return SettingScreen(
                 routeName: routeName,
               );
 
             default:
-              return Home(
-                routeName: routeName,
-              );
+              return const DashboardScreen();
           }
         } else {
-          return const UnknownRoute();
+          return const PageNotFound();
         }
       } else {
-        return Home(
-          routeName: routeName,
-        );
+        return const DashboardScreen();
       }
     } else {
-      return const UnknownRoute();
+      return const PageNotFound();
     }
   }
 }

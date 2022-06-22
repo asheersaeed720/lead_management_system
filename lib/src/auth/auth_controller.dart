@@ -56,7 +56,6 @@ class AuthController extends NetworkManager {
   }) async {
     if (connectionType != 0) {
       bool isAuth = ((await _authService.logInUser(email, password)) != null);
-      log('isAuth $isAuth');
       if (isAuth) {
         // _getStorage.write('user', FirebaseAuth.instance.currentUser);
         currentUserData = getCurrentUser();
@@ -93,7 +92,7 @@ class AuthController extends NetworkManager {
     await FirebaseAuth.instance.signOut();
     // _getStorage.remove('user');
     // currentUserData = _getStorage.read('user');
-    update();
+    // update();
     displayToastMessage('Logout');
     // Get.offAllNamed(Routes.login);
   }

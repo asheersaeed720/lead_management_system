@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lead_management_system/src/auth/split_route_params.dart';
+import 'package:lead_management_system/utils/split_route_params.dart';
 
-class Settings extends StatelessWidget {
+class SettingScreen extends StatelessWidget {
   final String routeName;
 
-  const Settings({
+  const SettingScreen({
     Key? key,
     required this.routeName,
   }) : super(key: key);

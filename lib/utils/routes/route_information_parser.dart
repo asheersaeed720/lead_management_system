@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lead_management_system/src/routes/route_path.dart';
+import 'package:lead_management_system/utils/routes/route_path.dart';
 
 /// parseRouteInformation will convert the given route information into parsed data to pass to RouterDelegate.
 class RoutesInformationParser extends RouteInformationParser<RoutePath> {
@@ -9,7 +9,7 @@ class RoutesInformationParser extends RouteInformationParser<RoutePath> {
     final uri = Uri.parse(routeInformation.location!);
 
     if (uri.pathSegments.isEmpty) {
-      return RoutePath.home('/');
+      return RoutePath.dashboard('/');
     }
 
     /// For query params- pass the complete path
@@ -34,7 +34,7 @@ class RoutesInformationParser extends RouteInformationParser<RoutePath> {
     if (configuration.isUnknown) {
       return const RouteInformation(location: '/error');
     }
-    if (configuration.isHomePage) {
+    if (configuration.isDashboardPage) {
       return const RouteInformation(location: '/');
     }
     if (configuration.isOtherPage) {
