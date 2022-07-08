@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart' as hive_flutter;
+import 'package:lead_management_system/src/hive/hive_storage_service.dart';
 import 'package:lead_management_system/src/main_binding.dart';
 import 'package:lead_management_system/utils/routes/route_delegate.dart';
 import 'package:lead_management_system/utils/routes/route_information_parser.dart';
@@ -12,8 +14,8 @@ import 'utils/app_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy();
-  // bool isUserLoggedIn = await HiveDataStorageService.getUser();
-  bool isUserLoggedIn = false;
+  hive_flutter.Hive.initFlutter();
+  bool isUserLoggedIn = await HiveDataStorageService.getUser();
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
