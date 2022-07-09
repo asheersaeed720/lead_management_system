@@ -5,7 +5,6 @@ import 'package:lead_management_system/src/hive/hive_storage_service.dart';
 import 'package:lead_management_system/utils/routes/route_delegate.dart';
 import 'package:lead_management_system/utils/routes/route_handeler.dart';
 import 'package:lead_management_system/utils/routes/sub_navigation_routes.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MainScreen extends StatefulWidget {
   // Receives the name of the route from router delegate
@@ -21,16 +20,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Future<void> launchLink(String url, {bool isNewTab = true}) async {
-    await launchUrl(
-      Uri.parse(url),
-      webOnlyWindowName: isNewTab ? '_blank' : '_self',
-    );
-  }
+  // Future<void> launchLink(String url, {bool isNewTab = true}) async {
+  //   await launchUrl(
+  //     Uri.parse(url),
+  //     webOnlyWindowName: isNewTab ? '_blank' : '_self',
+  //   );
+  // }
 
   _logOut() async {
     await HiveDataStorageService.logOutUser();
-    Get.find<AuthController>().logoutUser();
+    await Get.find<AuthController>().logoutUser();
     AppRouterDelegate().setPathName(RouteData.login.name, loggedIn: false);
   }
 

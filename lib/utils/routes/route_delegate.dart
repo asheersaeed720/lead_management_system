@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:lead_management_system/src/auth/views/login_screen.dart';
 import 'package:lead_management_system/src/auth/views/signup_screen.dart';
@@ -114,7 +112,6 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
     pathName = configuration.pathName;
 
     if (configuration.isOtherPage) {
-      log('${configuration.isOtherPage}');
       if (configuration.pathName != null) {
         if (isLoggedIn) {
           /// If logged in

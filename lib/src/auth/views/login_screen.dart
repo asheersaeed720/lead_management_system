@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lead_management_system/src/auth/auth_controller.dart';
+import 'package:lead_management_system/src/auth/views/signup_screen.dart';
 import 'package:lead_management_system/src/hive/hive_storage_service.dart';
 import 'package:lead_management_system/utils/constants.dart';
 import 'package:lead_management_system/utils/input_decoration.dart';
@@ -156,7 +158,11 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
                       const Text("Free trial for 30 days"),
                       TextButton(
                         onPressed: () {
-                          AppRouterDelegate().setPathName(RouteData.signup.name, loggedIn: false);
+                          if (kIsWeb) {
+                            AppRouterDelegate().setPathName(RouteData.signup.name, loggedIn: false);
+                          } else {
+                            Get.to(() => SignUpScreen());
+                          }
                         },
                         child: Text(
                           "Register Now!",

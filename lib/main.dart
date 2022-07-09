@@ -2,19 +2,21 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart' as hive_flutter;
+import 'package:hive/hive.dart';
 import 'package:lead_management_system/src/hive/hive_storage_service.dart';
 import 'package:lead_management_system/src/main_binding.dart';
 import 'package:lead_management_system/utils/routes/route_delegate.dart';
 import 'package:lead_management_system/utils/routes/route_information_parser.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:url_strategy/url_strategy.dart';
 
 import 'utils/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await openHiveBox('user');
+
   setPathUrlStrategy();
-  hive_flutter.Hive.initFlutter();
   bool isUserLoggedIn = await HiveDataStorageService.getUser();
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -58,4 +60,11 @@ class MyApp extends StatelessWidget {
       routerDelegate: AppRouterDelegate(isLoggedIn: isLoggedIn),
     );
   }
+}
+
+Future<Box> openHiveBox(String boxName) async {
+  if (!kIsWeb && !Hive.isBoxOpen(boxName)) {
+    Hive.init((await path_provider.getApplicationDocumentsDirectory()).path);
+  }
+  return await Hive.openBox(boxName);
 }

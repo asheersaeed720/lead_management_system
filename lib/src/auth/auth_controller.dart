@@ -57,12 +57,12 @@ class AuthController extends NetworkManager {
     if (connectionType != 0) {
       bool isAuth = ((await _authService.logInUser(email, password)) != null);
       if (isAuth) {
-        // _getStorage.write('user', FirebaseAuth.instance.currentUser);
         currentUserData = getCurrentUser();
       }
       return isAuth;
     } else {
-      customSnackBar('Network error', 'Please try again later');
+      // customSnackBar('Network error', 'Please try again later');
+      displayToastMessage('Network Error');
       return false;
     }
   }
