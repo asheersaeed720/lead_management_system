@@ -37,7 +37,6 @@ class CardTask extends StatelessWidget {
           onTap: () {},
           child: Container(
             width: MediaQuery.of(context).size.width / 4.6,
-            height: 250,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [primary, primary.withOpacity(.7)],

@@ -29,7 +29,6 @@ class _StackedColumnChartState extends State<StackedColumnChart> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3.0,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.5,
         padding: const EdgeInsets.all(8.0),

@@ -27,7 +27,6 @@ class _PieChartState extends State<PieChart> {
       ChartData('Others', 52)
     ];
     return Card(
-      elevation: 3.0,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.4,
         padding: const EdgeInsets.all(8.0),

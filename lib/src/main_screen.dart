@@ -54,7 +54,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      // backgroundColor: Colors.grey.shade50,
+      backgroundColor: const Color(0xFFf2edf3),
       body: SafeArea(
         child: ResponsiveBuilder(
           mobileBuilder: (BuildContext context, BoxConstraints constraints) =>
