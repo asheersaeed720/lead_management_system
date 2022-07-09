@@ -45,7 +45,7 @@ class RouteHandeler {
         if (routeData != RouteData.notFound) {
           switch (routeData) {
             case RouteData.dashboard:
-              return const DashboardScreen();
+              return DashboardScreen();
 
             case RouteData.settings:
               return SettingScreen(
@@ -53,13 +53,13 @@ class RouteHandeler {
               );
 
             default:
-              return const DashboardScreen();
+              return DashboardScreen();
           }
         } else {
           return const PageNotFound();
         }
       } else {
-        return const DashboardScreen();
+        return DashboardScreen();
       }
     } else {
       return const PageNotFound();

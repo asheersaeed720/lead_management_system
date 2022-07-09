@@ -10,12 +10,12 @@ class SubNavigationRoutes {
 
 List<SubNavigationRoutes> routeList = [
   SubNavigationRoutes(
-    title: RouteData.dashboard.name.toUpperCase(),
+    title: RouteData.dashboard.name,
     icon: Icons.dashboard,
     route: RouteData.dashboard,
   ),
   SubNavigationRoutes(
-    title: RouteData.settings.name.toUpperCase(),
+    title: RouteData.settings.name,
     icon: Icons.settings,
     route: RouteData.settings,
   ),
