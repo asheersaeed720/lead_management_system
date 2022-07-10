@@ -1,5 +1,3 @@
-import 'package:dotted_border/dotted_border.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lead_management_system/utils/constants.dart';
 import 'package:lead_management_system/utils/extension.dart';
@@ -86,6 +84,40 @@ class ListTaskAssigned extends StatelessWidget {
   }
 
   Widget _buildAssign() {
+    // return (data.assignTo != null)
+    //     ? InkWell(
+    //         onTap: () {},
+    //         borderRadius: BorderRadius.circular(22),
+    //         child: Tooltip(
+    //           message: data.assignTo!,
+    //           child: CircleAvatar(
+    //             radius: 22,
+    //             backgroundColor: Colors.orange.withOpacity(.2),
+    //             child: Text(
+    //               data.assignTo!.getInitialName(2).toUpperCase(),
+    //               style: const TextStyle(
+    //                 color: Colors.orange,
+    //                 fontWeight: FontWeight.bold,
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       )
+    //     : DottedBorder(
+    //         color: kFontColorPallets[1],
+    //         strokeWidth: .3,
+    //         strokeCap: StrokeCap.round,
+    //         borderType: BorderType.Circle,
+    //         child: IconButton(
+    //           onPressed: () {},
+    //           color: kFontColorPallets[1],
+    //           iconSize: 15,
+    //           icon: const Icon(EvaIcons.plus),
+    //           splashRadius: 24,
+    //           tooltip: "assign",
+    //         ),
+    //       );
+
     return (data.assignTo != null)
         ? InkWell(
             onTap: () {},
@@ -105,19 +137,6 @@ class ListTaskAssigned extends StatelessWidget {
               ),
             ),
           )
-        : DottedBorder(
-            color: kFontColorPallets[1],
-            strokeWidth: .3,
-            strokeCap: StrokeCap.round,
-            borderType: BorderType.Circle,
-            child: IconButton(
-              onPressed: () {},
-              color: kFontColorPallets[1],
-              iconSize: 15,
-              icon: const Icon(EvaIcons.plus),
-              splashRadius: 24,
-              tooltip: "assign",
-            ),
-          );
+        : const SizedBox.shrink();
   }
 }

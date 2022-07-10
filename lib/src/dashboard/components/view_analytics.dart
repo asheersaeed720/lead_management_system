@@ -38,7 +38,7 @@ class _ViewAnalyticsState extends State<ViewAnalytics> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Total View',
+                        'Total Leads',
                         style: kBodyStyle.copyWith(color: Colors.grey),
                       ),
                       Text(
@@ -58,7 +58,7 @@ class _ViewAnalyticsState extends State<ViewAnalytics> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Unique View',
+                        'Unique Leads',
                         style: kBodyStyle.copyWith(color: Colors.grey),
                       ),
                       Text(
@@ -84,7 +84,7 @@ class _ViewAnalyticsState extends State<ViewAnalytics> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Total View',
+                        'Total Leads',
                         style: kBodyStyle.copyWith(color: Colors.grey),
                       ),
                       Text(
@@ -104,7 +104,7 @@ class _ViewAnalyticsState extends State<ViewAnalytics> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Unique View',
+                        'Unique Leads',
                         style: kBodyStyle.copyWith(color: Colors.grey),
                       ),
                       Text(

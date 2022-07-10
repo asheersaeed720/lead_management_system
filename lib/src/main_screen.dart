@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lead_management_system/src/dashboard/popup_menu/popup_menu.dart';
@@ -15,6 +16,8 @@ class MainScreenController extends GetxController {
     if (index == 0) {
       AppRouterDelegate().setPathName(RouteData.dashboard.name);
     } else if (index == 1) {
+      AppRouterDelegate().setPathName(RouteData.user.name);
+    } else if (index == 2) {
       AppRouterDelegate().setPathName(RouteData.settings.name);
     }
     update();
@@ -65,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
                   flex: constraints.maxWidth > 1350 ? 10 : 9,
                   child: SingleChildScrollView(
                     controller: ScrollController(),
-                    child: _buildAppBarView(),
+                    child: _buildAppBarAndBodyView(),
                   ),
                 ),
               ],
@@ -113,6 +116,14 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           NavigationRailDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person),
+            label: Padding(
+              padding: EdgeInsets.only(top: 6.0),
+              child: Text('Users'),
+            ),
+          ),
+          NavigationRailDestination(
             icon: Icon(Icons.settings_applications_outlined),
             selectedIcon: Icon(Icons.settings_applications),
             label: Padding(
@@ -125,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _buildAppBarView() {
+  Widget _buildAppBarAndBodyView() {
     return Column(
       children: [
         Container(
@@ -142,12 +153,21 @@ class _MainScreenState extends State<MainScreen> {
           ),
           child: Row(
             children: [
+              InkWell(
+                onTap: () {},
+                child: const Icon(EvaIcons.menu),
+              ),
+              const SizedBox(width: 14.0),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
                 height: 38.0,
                 child: TextFormField(
                   controller: _searchController,
-                  decoration: buildTextFieldInputDecoration(context, labelTxt: 'Search'),
+                  decoration: buildTextFieldInputDecoration(
+                    context,
+                    preffixIcon: const Icon(EvaIcons.search),
+                    labelTxt: 'Search',
+                  ),
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
                   },
@@ -174,22 +194,26 @@ class _MainScreenState extends State<MainScreen> {
                 child: MyPopupMenu(
                   child: Row(
                     key: GlobalKey(),
-                    children: const [
-                      CircleAvatar(
-                        minRadius: 12.0,
-                        maxRadius: 18.0,
-                        backgroundImage: AssetImage('assets/images/man.png'),
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.0),
+                          border: Border.all(width: 2.0, color: kPrimaryColor),
+                        ),
+                        child: const CircleAvatar(
+                          minRadius: 12.0,
+                          maxRadius: 18.0,
+                          backgroundImage: AssetImage('assets/images/man.png'),
+                        ),
                       ),
-                      SizedBox(width: 10.0),
-                      Text('Administrator'),
-                      Icon(Icons.arrow_drop_down_rounded),
+                      const SizedBox(width: 10.0),
+                      const Text('Administrator'),
+                      const Icon(Icons.arrow_drop_down_rounded),
                     ],
                   ),
                 ),
               ),
-
               const SizedBox(width: 18.0),
-              // const Icon(Icons.more_vert),
             ],
           ),
         ),

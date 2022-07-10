@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lead_management_system/src/dashboard/dashboard_screen.dart';
 import 'package:lead_management_system/src/page_not_found.dart';
 import 'package:lead_management_system/src/setting/setting_screen.dart';
+import 'package:lead_management_system/src/users/users_screen.dart';
 
 enum RouteData {
   /// For routes for which we want to show unkown page that are not being parsed
@@ -12,10 +13,11 @@ enum RouteData {
   /// For routes that are parsed but not data is found for them eg. /user/?userName=abc and abc doesnt exist
   notFound,
 
-  dashboard,
   login,
+  signup,
+  dashboard,
+  user,
   settings,
-  signup
 }
 
 /// Class to handle route path related informations
@@ -46,6 +48,9 @@ class RouteHandeler {
           switch (routeData) {
             case RouteData.dashboard:
               return DashboardScreen();
+
+            case RouteData.user:
+              return const UsersScreen();
 
             case RouteData.settings:
               return SettingScreen(

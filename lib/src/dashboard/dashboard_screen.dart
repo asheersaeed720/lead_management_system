@@ -10,6 +10,7 @@ import 'package:lead_management_system/src/dashboard/components/stacked_column.d
 import 'package:lead_management_system/src/dashboard/components/view_analytics.dart';
 import 'package:lead_management_system/src/dashboard/components/weekly_task.dart';
 import 'package:lead_management_system/utils/constants.dart';
+import 'package:lead_management_system/widgets/page_title.dart';
 
 class DashboardScreen extends StatelessWidget {
   static const String routeName = '/dashboard';
@@ -69,33 +70,35 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildCountBoxView(),
-          const SizedBox(height: 20.0),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const PageTitle(
+              title: 'Dashboard',
+              iconData: Icons.dashboard,
+            ),
+            const SizedBox(height: 20.0),
+            _buildCountBoxView(),
+            const SizedBox(height: 20.0),
+            Row(
               children: const [
                 StackedColumnChart(),
-                SizedBox(width: 16.0),
+                SizedBox(width: 10.0),
                 PieChart(),
               ],
             ),
-          ),
-          const SizedBox(height: 16.0),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
+            const SizedBox(height: 10.0),
+            Row(
               children: [
                 WeeklyTask(data: weeklyTask),
-                SizedBox(width: 16.0),
-                ViewAnalytics(),
+                const SizedBox(width: 10.0),
+                const ViewAnalytics(),
               ],
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -118,18 +121,16 @@ class DashboardScreen extends StatelessWidget {
       borderRadius: BorderRadius.circular(kBorderRadius * 2),
       child: SizedBox(
         height: 250,
-        child: ListView.builder(
+        child: ListView.separated(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
           itemCount: data.length,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kSpacing / 2),
-            child: CardTask(
-              data: data[index],
-              primary: _getSequenceColor(index),
-              onPrimary: Colors.white,
-            ),
+          separatorBuilder: (context, _) => const SizedBox(width: 16.0),
+          itemBuilder: (context, index) => CardTask(
+            data: data[index],
+            primary: _getSequenceColor(index),
+            onPrimary: Colors.white,
           ),
         ),
       ),

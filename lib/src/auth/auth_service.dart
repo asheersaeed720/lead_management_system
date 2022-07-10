@@ -29,7 +29,7 @@ class AuthService extends GetConnect {
         "is_approve": true,
       };
       if (userCredential.user != null) {
-        await userCollection.doc(userCredential.user!.uid).set(data);
+        await usersCollection.doc(userCredential.user!.uid).set(data);
         userCredential.user?.updateDisplayName(companyName);
       }
       return userCredential;

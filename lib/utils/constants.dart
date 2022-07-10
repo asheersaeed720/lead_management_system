@@ -21,6 +21,6 @@ const kFontColorPallets = [
   Color.fromRGBO(72, 76, 99, 1),
   Color.fromRGBO(149, 149, 163, 1),
 ];
-const kBorderRadius = 8.0;
+const kBorderRadius = 6.0;
 const kSpacing = 20.0;
 const String fontName = 'Nexa';
