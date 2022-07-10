@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
@@ -143,6 +144,30 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                       decoration: buildTextFieldInputDecoration(
                         context,
                         labelTxt: '',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      height: 49.0,
+                      child: DropdownSearch<String>(
+                        popupProps: PopupProps.menu(
+                          constraints: const BoxConstraints(maxHeight: 180),
+                          showSelectedItems: true,
+                          disabledItemFn: (String s) => s.startsWith('U'),
+                        ),
+                        items: const ["English", "Urdu (Disabled)"],
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: buildTextFieldInputDecoration(
+                            context,
+                            labelTxt: 'Language',
+                          ),
+                        ),
+                        onChanged: (value) {
+                          _authController.dropdownValue = '$value';
+                        },
+                        selectedItem: _authController.dropdownValue,
                       ),
                     ),
                     const SizedBox(

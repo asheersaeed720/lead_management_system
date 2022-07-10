@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lead_management_system/src/auth/auth_controller.dart';
-import 'package:lead_management_system/src/hive/hive_storage_service.dart';
+import 'package:lead_management_system/src/dashboard/popup_menu/popup_menu.dart';
 import 'package:lead_management_system/utils/constants.dart';
 import 'package:lead_management_system/utils/input_decoration.dart';
 import 'package:lead_management_system/utils/responsive_builder.dart';
@@ -44,12 +43,6 @@ class _MainScreenState extends State<MainScreen> {
   // }
 
   final TextEditingController _searchController = TextEditingController();
-
-  _logOut() async {
-    await HiveDataStorageService.logOutUser();
-    await Get.find<AuthController>().logoutUser();
-    AppRouterDelegate().setPathName(RouteData.login.name, loggedIn: false);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,23 +103,6 @@ class _MainScreenState extends State<MainScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Image.asset('assets/icons/logo-white.png', width: 50.0),
         ),
-        // trailing: Column(
-        //   children: [
-        //     const Icon(
-        //       Icons.exit_to_app,
-        //       color: Colors.white70,
-        //     ),
-        //     const SizedBox(height: 8.0),
-        //     Text(
-        //       'Logout',
-        //       style: kBodyStyle.copyWith(
-        //         color: Colors.white70,
-        //         fontWeight: FontWeight.w500,
-        //         fontFamily: fontName,
-        //       ),
-        //     )
-        //   ],
-        // ),
         destinations: const <NavigationRailDestination>[
           NavigationRailDestination(
             icon: Icon(Icons.dashboard_outlined),
@@ -179,13 +155,41 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
               const Spacer(),
-              const Icon(Icons.notifications),
-              const SizedBox(width: 16.0),
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/man.png'),
+              Stack(
+                children: [
+                  const Icon(Icons.notifications, color: Colors.grey),
+                  Positioned(
+                    right: 0.0,
+                    child: Icon(
+                      Icons.circle,
+                      size: 8.0,
+                      color: Colors.red.shade700,
+                    ),
+                  )
+                ],
               ),
-              const SizedBox(width: 16.0),
-              const Icon(Icons.more_vert),
+              const SizedBox(width: 18.0),
+              InkWell(
+                onTap: () {},
+                child: MyPopupMenu(
+                  child: Row(
+                    key: GlobalKey(),
+                    children: const [
+                      CircleAvatar(
+                        minRadius: 12.0,
+                        maxRadius: 18.0,
+                        backgroundImage: AssetImage('assets/images/man.png'),
+                      ),
+                      SizedBox(width: 10.0),
+                      Text('Administrator'),
+                      Icon(Icons.arrow_drop_down_rounded),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 18.0),
+              // const Icon(Icons.more_vert),
             ],
           ),
         ),

@@ -3,9 +3,12 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:lead_management_system/src/auth/auth_service.dart';
+import 'package:lead_management_system/src/hive/hive_storage_service.dart';
 import 'package:lead_management_system/src/network_manager.dart';
 import 'package:lead_management_system/utils/custom_snack_bar.dart';
 import 'package:lead_management_system/utils/display_toast_message.dart';
+import 'package:lead_management_system/utils/routes/route_delegate.dart';
+import 'package:lead_management_system/utils/routes/route_handeler.dart';
 
 class AuthController extends NetworkManager {
   final _authService = Get.find<AuthService>();
@@ -19,6 +22,8 @@ class AuthController extends NetworkManager {
   bool obscureText = true;
 
   String rememberEmail = '';
+
+  String dropdownValue = 'English';
 
   @override
   void onInit() {
@@ -90,6 +95,8 @@ class AuthController extends NetworkManager {
 
   logoutUser() async {
     await FirebaseAuth.instance.signOut();
+    await HiveDataStorageService.logOutUser();
+    AppRouterDelegate().setPathName(RouteData.login.name, loggedIn: false);
     // _getStorage.remove('user');
     // currentUserData = _getStorage.read('user');
     // update();

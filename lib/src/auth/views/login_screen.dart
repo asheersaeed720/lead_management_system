@@ -81,6 +81,7 @@ class LogInScreen extends StatelessWidget with InputValidationMixin {
                   TextFormField(
                     controller: _emailController,
                     validator: (value) => validateEmail(value ?? ''),
+                    autofocus: true,
                     decoration: buildTextFieldInputDecoration(
                       context,
                       labelTxt: 'Email',
