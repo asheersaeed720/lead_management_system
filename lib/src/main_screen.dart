@@ -16,8 +16,14 @@ class MainScreenController extends GetxController {
     if (index == 0) {
       AppRouterDelegate().setPathName(RouteData.dashboard.name);
     } else if (index == 1) {
-      AppRouterDelegate().setPathName(RouteData.user.name);
+      AppRouterDelegate().setPathName(RouteData.users.name);
     } else if (index == 2) {
+      AppRouterDelegate().setPathName(RouteData.projects.name);
+    } else if (index == 3) {
+      AppRouterDelegate().setPathName(RouteData.leads.name);
+    } else if (index == 4) {
+      AppRouterDelegate().setPathName(RouteData.callLogs.name);
+    } else if (index == 5) {
       AppRouterDelegate().setPathName(RouteData.settings.name);
     }
     update();
@@ -124,8 +130,32 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           NavigationRailDestination(
-            icon: Icon(Icons.settings_applications_outlined),
-            selectedIcon: Icon(Icons.settings_applications),
+            icon: Icon(EvaIcons.folderAddOutline),
+            selectedIcon: Icon(EvaIcons.folderAddOutline),
+            label: Padding(
+              padding: EdgeInsets.only(top: 6.0),
+              child: Text('Projects'),
+            ),
+          ),
+          NavigationRailDestination(
+            icon: Icon(EvaIcons.bookmarkOutline),
+            selectedIcon: Icon(EvaIcons.bookmark),
+            label: Padding(
+              padding: EdgeInsets.only(top: 6.0),
+              child: Text('Leads'),
+            ),
+          ),
+          NavigationRailDestination(
+            icon: Icon(EvaIcons.phoneCallOutline),
+            selectedIcon: Icon(EvaIcons.phoneCall),
+            label: Padding(
+              padding: EdgeInsets.only(top: 6.0),
+              child: Text('Call Logs'),
+            ),
+          ),
+          NavigationRailDestination(
+            icon: Icon(Icons.settings_outlined),
+            selectedIcon: Icon(Icons.settings),
             label: Padding(
               padding: EdgeInsets.only(top: 6.0),
               child: Text('Setting'),

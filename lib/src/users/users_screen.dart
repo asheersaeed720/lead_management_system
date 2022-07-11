@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:lead_management_system/src/users/users_service.dart';
+import 'package:lead_management_system/utils/constants.dart';
 import 'package:lead_management_system/widgets/page_title.dart';
 import 'package:responsive_table/responsive_table.dart';
 
@@ -47,45 +48,17 @@ class _UsersScreenState extends State<UsersScreen> {
     for (var data in source) {
       temps.add({
         "id": i,
-        "sku": "$i 000$i",
-        "name": data[0].name, // "Product $i",
-        "category": "Category-$i",
-        "price": i * 10.00,
-        "cost": "20.00",
-        "margin": "${i}0.20",
-        "in_stock": "${i}0",
-        "alert": "5",
-        "received": [i + 20, 150]
+        "name": '${data[0].name} $i',
+        "email": "test$i@test.com",
+        "type": "Normal/Admin",
+        "joining date": '${DateTime.now()}',
+        "department": "Info Tech",
+        "status": "Active",
       });
       i++;
     }
     return temps;
   }
-
-  // Future<List<Map<String, dynamic>>> _generateData() async {
-  //   final List<UserModel> source = await UserServices().getAllUsers();
-  //   log('source $source');
-  //   List<Map<String, dynamic>> temps = [];
-  //   var i = 1;
-  //   print(i);
-  //   // ignore: unused_local_variable
-  //   for (var data in source) {
-  //     temps.add({
-  //       // "id": i,
-  //       // "sku": "$i 000$i",
-  //       "name": data.name,
-  //       // "category": "Category-$i",
-  //       // "price": i * 10.00,
-  //       // "cost": "20.00",
-  //       // "margin": "${i}0.20",
-  //       // "in_stock": "${i}0",
-  //       // "alert": "5",
-  //       // "received": [i + 20, 150]
-  //     });
-  //     i++;
-  //   }
-  //   return temps;
-  // }
 
   _initializeData() async {
     _mockPullData();
@@ -156,45 +129,23 @@ class _UsersScreenState extends State<UsersScreen> {
           editable: true,
           textAlign: TextAlign.left),
       DatatableHeader(
-          text: "SKU", value: "sku", show: true, sortable: true, textAlign: TextAlign.center),
+          text: "EMAIL", value: "email", show: true, sortable: true, textAlign: TextAlign.center),
       DatatableHeader(
-          text: "Category",
-          value: "category",
+          text: "TYPE", value: "type", show: true, sortable: true, textAlign: TextAlign.center),
+      DatatableHeader(
+          text: "JOINING DATE",
+          value: "joining date",
           show: true,
           sortable: true,
           textAlign: TextAlign.left),
       DatatableHeader(
-          text: "Price", value: "price", show: true, sortable: true, textAlign: TextAlign.left),
-      DatatableHeader(
-          text: "Margin", value: "margin", show: true, sortable: true, textAlign: TextAlign.left),
-      DatatableHeader(
-          text: "In Stock",
-          value: "in_stock",
+          text: "DEPARTMENT",
+          value: "department",
           show: true,
           sortable: true,
-          textAlign: TextAlign.left),
-      DatatableHeader(
-          text: "Alert", value: "alert", show: true, sortable: true, textAlign: TextAlign.left),
-      DatatableHeader(
-          text: "Received",
-          value: "received",
-          show: true,
-          sortable: false,
-          sourceBuilder: (value, row) {
-            List list = List.from(value);
-            return Column(
-              children: [
-                SizedBox(
-                  width: 85,
-                  child: LinearProgressIndicator(
-                    value: list.first / list.last,
-                  ),
-                ),
-                Text("${list.first} of ${list.last}")
-              ],
-            );
-          },
           textAlign: TextAlign.center),
+      DatatableHeader(
+          text: "STATUS", value: "status", show: true, sortable: true, textAlign: TextAlign.center),
     ];
 
     _initializeData();
@@ -220,20 +171,19 @@ class _UsersScreenState extends State<UsersScreen> {
             ),
             const SizedBox(height: 20.0),
             Container(
-              constraints: const BoxConstraints(
-                maxHeight: 700,
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.8,
               ),
               child: Card(
                 elevation: 1,
                 shadowColor: Colors.black,
                 clipBehavior: Clip.none,
                 child: ResponsiveDatatable(
-                  title: TextButton.icon(
+                  title: ElevatedButton.icon(
                     onPressed: () => {},
                     icon: const Icon(Icons.add),
-                    label: const Text("new item"),
+                    label: const Text("Add User"),
                   ),
-                  // reponseScreenSizes: const [ScreenSize.xs],
                   actions: [
                     if (_isSearch)
                       Expanded(
@@ -284,7 +234,7 @@ class _UsersScreenState extends State<UsersScreen> {
                     /// print(header);
                   },
                   onTabRow: (data) {
-                    print(data);
+                    log('$data');
                   },
                   onSort: (value) {
                     setState(() => _isLoading = true);
@@ -389,16 +339,19 @@ class _UsersScreenState extends State<UsersScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                     )
                   ],
-                  headerDecoration: const BoxDecoration(
-                      color: Colors.grey,
-                      border: Border(bottom: BorderSide(color: Colors.red, width: 1))),
-                  selectedDecoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.green[300]!, width: 1)),
-                    color: Colors.green,
+                  headerDecoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    border: const Border(bottom: BorderSide(color: Colors.grey, width: 1)),
                   ),
-                  headerTextStyle: const TextStyle(color: Colors.white),
-                  rowTextStyle: const TextStyle(color: Colors.green),
-                  selectedTextStyle: const TextStyle(color: Colors.white),
+                  selectedDecoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: kPrimaryColor[300]!, width: 1),
+                    ),
+                    color: kPrimaryColor.shade100,
+                  ),
+                  // headerTextStyle: const TextStyle(color: Colors.white),
+                  // rowTextStyle: const TextStyle(color: Colors.green),
+                  // selectedTextStyle: const TextStyle(color: Colors.white),
                 ),
               ),
             ),

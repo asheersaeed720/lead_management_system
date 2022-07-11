@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:lead_management_system/src/call_logs/call_logs_screen.dart';
 import 'package:lead_management_system/src/dashboard/dashboard_screen.dart';
+import 'package:lead_management_system/src/leads/leads_screen.dart';
 import 'package:lead_management_system/src/page_not_found.dart';
+import 'package:lead_management_system/src/projects/projects_screen.dart';
 import 'package:lead_management_system/src/setting/setting_screen.dart';
 import 'package:lead_management_system/src/users/users_screen.dart';
 
@@ -16,7 +19,10 @@ enum RouteData {
   login,
   signup,
   dashboard,
-  user,
+  users,
+  projects,
+  leads,
+  callLogs,
   settings,
 }
 
@@ -49,8 +55,17 @@ class RouteHandeler {
             case RouteData.dashboard:
               return DashboardScreen();
 
-            case RouteData.user:
+            case RouteData.users:
               return const UsersScreen();
+
+            case RouteData.projects:
+              return const ProjectsScreen();
+
+            case RouteData.leads:
+              return const LeadsScreen();
+
+            case RouteData.callLogs:
+              return const CallLogsScreen();
 
             case RouteData.settings:
               return SettingScreen(
